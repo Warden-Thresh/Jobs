@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -7,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>SpringMVC 添加用户</title>
+    <title>SpringMVC 用户详情</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -21,21 +20,31 @@
 </head>
 <body>
 <div class="container">
-    <h1>登录</h1>
+    <h1>SpringMVC 用户详情</h1>
     <hr/>
-    <form:form action="/loginP" method="post" commandName="user" role="form">
-        <div class="form-group">
-            <label for="userId">userId:</label>
-            <input type="text" class="form-control" id="userId" name="userId" placeholder="Enter ID:"/>
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="text" class="form-control" id="password" name="password" placeholder="Enter Password:"/>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-sm btn-success">登录</button>
-        </div>
-    </form:form>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID</th>
+            <td>${user.userId}</td>
+        </tr>
+        <tr>
+            <th>Nickname</th>
+            <td>${user.nickname}</td>
+        </tr>
+        <tr>
+            <th>First Name</th>
+            <td>${user.firstName}</td>
+        </tr>
+        <tr>
+            <th>Last Name</th>
+            <td>${user.lastName}</td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td>${user.password}</td>
+        </tr>
+    </table>
 </div>
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
