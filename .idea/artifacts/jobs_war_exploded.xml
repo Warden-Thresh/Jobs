@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="jobs:war exploded">
-    <output-path>$PROJECT_DIR$/target/jobs</output-path>
+    <output-path>D:/Program Files/apache-tomcat-8.5.6/webapps/jobs</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

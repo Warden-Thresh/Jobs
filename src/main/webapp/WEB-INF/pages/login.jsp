@@ -37,7 +37,35 @@
         </div>
     </form:form>
 </div>
-
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span4">
+        </div>
+        <div class="span4">
+            <form:form action="/loginP" method="post" commandName="user" role="form">
+                <div class="control-group">
+                    <label class="control-label" for="nickname">用户名</label>
+                    <div class="controls">
+                        <input id="nickname" type="text" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="password">密码</label>
+                    <div class="controls">
+                        <input id="password" type="password" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox"><input type="checkbox" /> Remember me</label> <button type="submit" class="btn">登陆</button>
+                    </div>
+                </div>
+            </form:form>
+        </div>
+        <div class="span4">
+        </div>
+    </div>
+</div>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 

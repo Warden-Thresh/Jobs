@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"/></script>
+<title>���з�ɢЧ�����ٲ���</title>
+<style type="text/css">
+    *{padding: 0;margin:0;}
+    #main{
+        position: relative;
+    }
+    .pin{
+        padding: 15px 0 0 15px;
+        float:left;
+    }
+    .box{
+        padding: 10px;
+        border:1px solid #ccc;
+        box-shadow: 0 0 6px #ccc;
+        border-radius: 5px;
+    }
+    .box img{
+        width:162px;
+        height:auto;
+    }
+</style>
+<script>
+$( window ).on( "load", function(){
+   // ����waterfall����
+    var dataInt={'data':[{'src':'1.jpg'},{'src':'2.jpg'},{'src':'3.jpg'},{'src':'4.jpg'}]};
+    window.onscroll=function(){
+       // �϶�������ʱ
+     }
+});
+function waterfall(){
+ // ���㼰��λ���ݿ���ʾ��ɢЧ��
+}
+
+function checkscrollside(){
+  // ����Ƿ�߱��˼������ݿ������
+}
+
+</script>
+</head>
+<body>
+<span>输入账号 :</span>
+<input id="name" name="name" onkeyup="check()" type="text">
+<span id="checkResult"></span>
+
+<script>
+    var xmlhttp;
+    function check(){
+        var name = document.getElementById("name").value;
+        var url = "/checkName?name="+name;
+
+        xmlhttp =new XMLHttpRequest();
+        xmlhttp.onreadystatechange=checkResult; //响应函数
+        xmlhttp.open("GET",url,true);   //设置访问的页面
+        xmlhttp.send(null);  //执行访问
+    }
+
+    function checkResult(){
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            document.getElementById('checkResult').innerHTML=xmlhttp.responseText;
+
+    }
+
+</script>
+</div>
+</body>
+</html>

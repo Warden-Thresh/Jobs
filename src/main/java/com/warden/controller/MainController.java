@@ -2,7 +2,6 @@ package com.warden.controller;
 import com.warden.exception.UserNotFound;
 import com.warden.model.JobEntity;
 import com.warden.model.UserEntity;
-import com.warden.repository.UserRepository;
 import com.warden.service.JobService;
 import com.warden.service.LoginService;
 import com.warden.service.UserService;
@@ -11,7 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
 
 @Controller
 @SessionAttributes("admin")
@@ -26,6 +32,34 @@ public class MainController  {
     @Autowired
     LoginService loginService;
 
+    @RequestMapping(value="/checkName",method={RequestMethod.GET,RequestMethod.POST})
+    public @ResponseBody String checkName(HttpServletRequest request, HttpServletResponse response) {
+        String name = request.getParameter("name");
+        String result;
+        System.out.println(name);
+        if(userService.findByNickname(name) != null){
+            result = "";
+        }
+        else {
+            result =("notfound");
+        }
+        System.out.println(result);
+        return result;
+    }
+
+    @RequestMapping(value="/hello5.do")
+    @ResponseBody
+    public String hello(HttpServletResponse response) throws IOException{
+        JobEntity jobEntity = jobService.getJob(1);
+        JobEntity jobEntity1 = jobService.getJob(2);
+
+
+        Map<String,JobEntity> map=new HashMap<String,JobEntity>();
+        map.put("001", jobEntity);
+        map.put("002", jobEntity1);
+
+        return null;
+    }
 
     @RequestMapping(value="/",method={RequestMethod.GET,RequestMethod.POST})
     public String index(ModelMap modelMap) {
@@ -36,7 +70,7 @@ public class MainController  {
     }
 
     //查看job
-    @RequestMapping(value = "/job/show/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "admin/job/show/{id}", method = RequestMethod.GET)
     public String showJob(@PathVariable("id") Integer jobId, ModelMap modelMap) {
 
         // 找到userId所表示的用户
@@ -49,7 +83,7 @@ public class MainController  {
         return "jobDetail";
     }
 
-    @RequestMapping(value = "/job/add", method = RequestMethod.GET)
+    @RequestMapping(value = "admin/job/add", method = RequestMethod.GET)
     public String addJob() {
         // 转到 admin/addUser.jsp页面
         return "admin/addUser";
