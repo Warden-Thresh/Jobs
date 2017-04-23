@@ -15,6 +15,7 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String nickname;
+    private String img;
 
     @Id
     @GeneratedValue
@@ -115,5 +116,15 @@ public class UserEntity {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "img", nullable = true, length = 255)
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

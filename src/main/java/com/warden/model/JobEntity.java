@@ -12,6 +12,7 @@ public class JobEntity {
     private String jobName;
     private String jobDetial;
     private Integer userId;
+    private String image;
 
     @Id
     @Column(name = "job_id", nullable = false)
@@ -73,5 +74,15 @@ public class JobEntity {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "image", nullable = true, length = 255)
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -68,7 +68,7 @@
     <!-- 登录拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/admin/*"/> <!-- 管理员登录拦截 -->
+            <mvc:mapping path="/admin/**"/> <!-- 管理员登录拦截 -->
             <mvc:exclude-mapping path="/admin/login"/>
             <mvc:exclude-mapping path="/admin/loginP"/>
             <bean class="com.warden.interceptor.AdminInterceptor"></bean>
@@ -79,6 +79,24 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+
+    <!-- rest json related... start -->
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    <!-- rest json related... end -->
 
     <!-- 开启事务管理注解 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>

@@ -20,7 +20,7 @@ public class AdminInterceptor implements HandlerInterceptor {
             System.out.println(userEntity.getNickname()+"\n"+userEntity.getPassword());
             return true;
         }
-        response.sendRedirect("login");
+        response.sendRedirect("/admin/login");
         return false;
     }
 

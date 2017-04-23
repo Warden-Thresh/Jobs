@@ -17,8 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
-
 @Controller
 @SessionAttributes("admin")
 public class MainController  {
@@ -47,20 +45,24 @@ public class MainController  {
         return result;
     }
 
-    @RequestMapping(value="/hello5.do")
-    @ResponseBody
-    public String hello(HttpServletResponse response) throws IOException{
-        JobEntity jobEntity = jobService.getJob(1);
-        JobEntity jobEntity1 = jobService.getJob(2);
+   /* @RequestMapping("/showInfos")
+    public @ResponseBody Map<String,Object> showUserInfos(){      // @ResponseBody 表明输出的对象是JSON 格式。
+        List<UserEntity> userInfos = userService.getUsers();
+        Map<String,Object> modelMap = new HashMap<String,Object>(3);
+        modelMap.put("userlist",userInfos);
 
+        return modelMap;
 
-        Map<String,JobEntity> map=new HashMap<String,JobEntity>();
-        map.put("001", jobEntity);
-        map.put("002", jobEntity1);
+    }*/
+   @RequestMapping("/showInfos")
+   public @ResponseBody Map<String,Object> showUserInfos(){      // @ResponseBody 表明输出的对象是JSON 格式。
+       List<JobEntity> jobList = jobService.getJobs();
+       Map<String,Object> modelMap = new HashMap<String,Object>(3);
+       modelMap.put("joblist",jobList);
 
-        return null;
-    }
+       return modelMap;
 
+   }
     @RequestMapping(value="/",method={RequestMethod.GET,RequestMethod.POST})
     public String index(ModelMap modelMap) {
         // 将所有记录传递给要返回的jsp页面，放在userList当中
