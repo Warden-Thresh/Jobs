@@ -1,5 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -20,6 +18,76 @@
     <![endif]-->
 </head>
 <body>
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="js/bootstrap-paginator.min.js"></script>
+<script>
+    var totalPages;
+    var pageSize = $("#pagination").attr("pageSize");
+    $.ajax({
+        url:"/joblist",
+        type:"get",
+        dataType:"json",
+        async:false,
+        success:function(data){
+            window.totalPages = data.totalPages ;
+        },
+        error:function(error){
+            alert("error");
+        }
+    });
+</script>
+
+<script>
+    console.log( "nothing selected, can't validate, returning nothing" );
+    var options = {
+        bootstrapMajorVersion: 3,
+        alignment:'center',
+        currentPage:1,
+        totalPages: totalPages ,
+        pageUrl: function(type, page, current){
+            return "/joblist?page="+page;
+        },
+        onPageClicked: function (event, originalEvent, type, page) {
+            originalEvent.preventDefault();
+            originalEvent.stopPropagation();
+            $.ajax({
+                url:originalEvent.target.href,
+                type:"GET",
+                dataType:"json",
+                success: function(data){
+                    var tbody = document.getElementById("table");
+                    var str = "<tr><th>名称</th><th>详情</th></tr>";
+                    $("#content tr").remove();
+                    $(data.rows).each(function(){
+                        str += "<tr>" +
+                            "<td>" + this.jobName + "</td>" +
+                            "<td>" + this.jobDetial + "</td>" +
+                            "</tr>";
+
+                    });
+                    tbody.innerHTML = str;
+
+                },
+                error: function(error){
+                    alert("error");
+                }
+            });
+        }
+    };
+    $(document).ready(function(){
+
+
+
+        $("#pagination").bootstrapPaginator(options);
+        $("#pagination li:first a").trigger("click");
+    });
+
+
+</script>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -35,7 +103,7 @@
                         <li>
                             <a href="#">Link</a>
                         </li>
-                        <li class="dropdown">
+                        <li class="分类">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
@@ -63,13 +131,15 @@
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
                             <input type="text" class="form-control" />
-                        </div> <button type="submit" class="btn btn-default">Submit</button>
+                        </div> <button type="submit" class="btn btn-default">搜索</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="/admin/users">admin</a>
                         </li>
-                        <li><a href="/login" type="button" class="btn btn-sm btn-success"><h4>login</h4></a></li>
+                        <li>
+                            <a href="/login"  >login</a>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
@@ -99,7 +169,6 @@
     </div>
     <div class="row clearfix">
         <div class="col-md-12 column">
-            <a id="modal-709333" href="#modal-container-709333" role="button" class="btn" data-toggle="modal">触发遮罩窗体</a>
             <div class="modal fade" id="modal-container-709333" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -129,7 +198,7 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img alt="" src="v3/default.jpg" />
+                        <img alt="" src="image/banner1.jpg" />
                         <div class="carousel-caption">
                             <h4>
                                 First Thumbnail label
@@ -140,7 +209,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <img alt="" src="v3/default1.jpg" />
+                        <img alt="" src="image/banner2.jpg" />
                         <div class="carousel-caption">
                             <h4>
                                 Second Thumbnail label
@@ -151,7 +220,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <img alt="" src="v3/default2.jpg" />
+                        <img alt="" src="image/banner3.jpg" />
                         <div class="carousel-caption">
                             <h4>
                                 Third Thumbnail label
@@ -164,44 +233,14 @@
                 </div> <a class="left carousel-control" href="#carousel-675275" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-675275" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
             <div class="container">
-                <h1>内容管理</h1>
+                <h1>招聘信息</h1>
                 <hr/>
+                <table id=table class="table table-bordered table-striped"></table>
+                <nav style="text-align: center">
+                    <ul id="pagination" pageSize="2">
+                </nav>
 
-                <h3>所有内容 <a href="/admin/users/add" type="button" class="btn btn-primary btn-sm">添加</a></h3>
 
-                <!-- 如果用户列表为空 -->
-                <c:if test="${empty jobList}">
-                    <div class="alert alert-warning" role="alert">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>Job表为空，请<a href="/admin/users/add" type="button" class="btn btn-primary btn-sm">添加</a>
-                    </div>
-                </c:if>
-
-                <!-- 如果用户列表非空 -->
-                <c:if test="${!empty jobList}">
-                    <table class="table table-bordered table-striped">
-                        <tr>
-                            <th>ID</th>
-                            <th>名称</th>
-                            <th>详情</th>
-                            <th>发布者</th>
-                            <th>操作</th>
-                        </tr>
-
-                        <c:forEach items="${jobList}" var="job">
-                            <tr>
-                                <td>${job.jobId}</td>
-                                <td>${job.jobName}</td>
-                                <td>${job.jobDetial}</td>
-                                <td>${job.userId}</td>
-                                <td>
-                                    <a href="/admin/users/show/${job.jobId}" type="button" class="btn btn-sm btn-success">详情</a>
-                                    <a href="/admin/users/update/${job.jobId}" type="button" class="btn btn-sm btn-warning">修改</a>
-                                    <a href="/admin/users/delete/${job.jobId}" type="button" class="btn btn-sm btn-danger">删除</a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </c:if>
             </div>
             <div class="jumbotron">
                 <h1>
@@ -277,10 +316,5 @@
 
 
 
-<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>

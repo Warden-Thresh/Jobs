@@ -2,17 +2,21 @@ package com.warden.controller;
 import com.warden.exception.UserNotFound;
 import com.warden.model.JobEntity;
 import com.warden.model.UserEntity;
+import com.warden.repository.JobSearch;
 import com.warden.service.JobService;
 import com.warden.service.LoginService;
 import com.warden.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +24,7 @@ import java.util.Map;
 @Controller
 @SessionAttributes("admin")
 public class MainController  {
-    // 自动装配数据库接口，不需要再写原始的Connection来操作数据库
+    // 自动装配数据库接口
     @Autowired
     UserService userService;
 
@@ -29,6 +33,9 @@ public class MainController  {
 
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    JobSearch jobSearch;
 
     @RequestMapping(value="/checkName",method={RequestMethod.GET,RequestMethod.POST})
     public @ResponseBody String checkName(HttpServletRequest request, HttpServletResponse response) {
@@ -61,14 +68,32 @@ public class MainController  {
        modelMap.put("joblist",jobList);
 
        return modelMap;
-
    }
+
+    @RequestMapping(value = "/joblist", method=RequestMethod.GET)
+    @ResponseBody
+    public Map getAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                            @RequestParam(value = "size", defaultValue = "3") Integer size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "jobId");
+        if (page<1){
+            page=1;
+        }
+        Pageable pageable = new PageRequest(page-1, size, sort);
+        System.out.print(jobSearch.findAll(pageable));
+        Page<JobEntity> list = jobSearch.findAll(pageable);
+        Map map =new HashMap();
+        map.put("totalPages", list.getTotalPages());//总页数
+        map.put("totalElements", list.getTotalElements());//数据总数
+        map.put("rows",list.getContent());//分页应该显示的数据
+        return map;
+    }
+
     @RequestMapping(value="/",method={RequestMethod.GET,RequestMethod.POST})
     public String index(ModelMap modelMap) {
         // 将所有记录传递给要返回的jsp页面，放在userList当中
         modelMap.addAttribute("jobList", jobService.getJobs());
 
-        return "index";
+        return "index.html";
     }
 
     //查看job

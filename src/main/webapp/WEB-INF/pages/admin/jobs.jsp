@@ -61,6 +61,8 @@
             </c:forEach>
         </table>
     </c:if>
+    <span style="font-size:14px;"><ul class="pagination" id="pageUl">
+</ul></span>
 </div>
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
