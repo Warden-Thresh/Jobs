@@ -22,5 +22,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     void updateUser(@Param("qNickname") String nickname, @Param("qFirstName") String firstName,
                     @Param("qLastName") String LastName, @Param("qPassword") String password, @Param("qId") Integer userId);
 
-    public UserEntity findByNickname(String nickname);
+    UserEntity findByNickname(String nickname);
 }

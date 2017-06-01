@@ -107,13 +107,13 @@ public class MainController  {
 
         // 传递给请求页面
         modelMap.addAttribute("job", jobEntity);
-        return "jobDetail";
+        return "jobDetail.jsp";
     }
 
     @RequestMapping(value = "admin/job/add", method = RequestMethod.GET)
     public String addJob() {
         // 转到 admin/addUser.jsp页面
-        return "admin/addUser";
+        return "admin/addUser.jsp";
     }
 
     @RequestMapping(value="/app/user/api",method={RequestMethod.GET,RequestMethod.POST})
@@ -126,14 +126,14 @@ public class MainController  {
     @RequestMapping(value="/login",method={RequestMethod.GET,RequestMethod.POST})
     public String login() {
         System.out.print("login");
-        return "login";
+        return "login.jsp";
     }
 
     @RequestMapping(value="/admin/login",method={RequestMethod.GET,RequestMethod.POST})
     public String adminlogin() {
 
         System.out.print("adminlogin");
-        return "admin/login";
+        return "admin/login.jsp";
     }
 
     @RequestMapping(value="/admin/loginP",method={RequestMethod.GET,RequestMethod.POST})
@@ -150,7 +150,7 @@ public class MainController  {
         modelMap.addAttribute("userList",userService.getUsers());
 
         // 返回pages目录下的admin/users.jsp页面
-        return "admin/users";
+        return "admin/users.jsp";
     }
 
     @RequestMapping(value = "/admin/jobs", method = RequestMethod.GET)
@@ -159,7 +159,7 @@ public class MainController  {
 
 
         // 返回pages目录下的admin/users.jsp页面
-        return "admin/jobs";
+        return "admin/jobs.jsp";
     }
 
     // 查看用户详情
@@ -174,14 +174,14 @@ public class MainController  {
 
         // 传递给请求页面
         modelMap.addAttribute("user", userEntity);
-        return "admin/userDetail";
+        return "admin/userDetail.jsp";
     }
 
     // get请求，访问添加用户 页面
     @RequestMapping(value = "/admin/users/add", method = RequestMethod.GET)
     public String addUser() {
         // 转到 admin/addUser.jsp页面
-        return "admin/addUser";
+        return "admin/addUser.jsp";
     }
 
     // post请求，处理添加用户请求，并重定向到用户管理页面
@@ -198,7 +198,7 @@ public class MainController  {
         userService.addUser(userEntity);
 
         // 重定向到用户管理页面，方法为 redirect:url
-        return "redirect:/admin/users";
+        return "redirect:/admin/users.jsp";
     }
 
     // 更新用户信息 页面
@@ -210,7 +210,7 @@ public class MainController  {
 
         // 传递给请求页面
         modelMap.addAttribute("user", userEntity);
-        return "admin/updateUser";
+        return "admin/updateUser.jsp";
     }
 
     // 更新用户信息 操作
@@ -223,7 +223,7 @@ public class MainController  {
                 user.getLastName(), user.getPassword(), user.getUserId());
         userRepository.flush(); // 刷新缓冲区*/
         userService.updateUser(user);
-        return "redirect:/admin/users";
+        return "redirect:/admin/users.jsp";
     }
 
     // 删除用户
@@ -234,6 +234,6 @@ public class MainController  {
        userService.deleteUser(userId);
         // 立即刷新
         userService.flush();
-        return "redirect:/admin/users";
+        return "redirect:/admin/users.jsp";
     }
 }  
