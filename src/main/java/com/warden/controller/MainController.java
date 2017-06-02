@@ -198,7 +198,7 @@ public class MainController  {
         userService.addUser(userEntity);
 
         // 重定向到用户管理页面，方法为 redirect:url
-        return "redirect:/admin/users.jsp";
+        return "redirect:/admin/users";
     }
 
     // 更新用户信息 页面
@@ -223,7 +223,7 @@ public class MainController  {
                 user.getLastName(), user.getPassword(), user.getUserId());
         userRepository.flush(); // 刷新缓冲区*/
         userService.updateUser(user);
-        return "redirect:/admin/users.jsp";
+        return "redirect:/admin/users";
     }
 
     // 删除用户
@@ -234,6 +234,6 @@ public class MainController  {
        userService.deleteUser(userId);
         // 立即刷新
         userService.flush();
-        return "redirect:/admin/users.jsp";
+        return "redirect:/admin/users";
     }
 }  
