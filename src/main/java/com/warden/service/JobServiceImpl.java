@@ -17,7 +17,8 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public boolean addJob(JobEntity job) {
-        return false;
+        jobRepository.saveAndFlush(job);
+        return  true;
     }
 
     @Override
@@ -33,9 +34,15 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobEntity deleteJob(JobEntity job) {
+    public JobEntity deleteJob(int jobId) {
+        JobEntity jobDelete = jobRepository.findOne(jobId);
+        if (jobDelete != null)
+        {
+            jobRepository.delete(jobDelete);
+        }
         return null;
     }
+
 
     @Override
     public List <JobEntity> getJobs() {

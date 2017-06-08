@@ -110,11 +110,6 @@ public class MainController  {
         return "jobDetail.jsp";
     }
 
-    @RequestMapping(value = "admin/job/add", method = RequestMethod.GET)
-    public String addJob() {
-        // 转到 admin/addUser.jsp页面
-        return "admin/addUser.jsp";
-    }
 
     @RequestMapping(value="/app/user/api",method={RequestMethod.GET,RequestMethod.POST})
     public String app() {
@@ -156,8 +151,9 @@ public class MainController  {
     @RequestMapping(value = "/admin/jobs", method = RequestMethod.GET)
     public String getJobs(ModelMap modelMap) {
         // 查询user表中所有记录
-
-
+        List<JobEntity> jobList = jobService.getJobs();
+// 将所有记录传递给要返回的jsp页面，放在userList当中
+        modelMap.addAttribute("jobList",jobService.getJobs());
         // 返回pages目录下的admin/users.jsp页面
         return "admin/jobs.jsp";
     }
@@ -184,6 +180,14 @@ public class MainController  {
         return "admin/addUser.jsp";
     }
 
+    // get请求，访问添加用户 页面
+    @RequestMapping(value = "/admin/jobs/add", method = RequestMethod.GET)
+    public String addJob() {
+        // 转到 admin/addUser.jsp页面
+        return "admin/addJob.jsp";
+    }
+
+
     // post请求，处理添加用户请求，并重定向到用户管理页面
     @RequestMapping(value = "/admin/users/addP", method = RequestMethod.POST)
     public String addUserPost(@ModelAttribute("user") UserEntity userEntity) {
@@ -199,6 +203,24 @@ public class MainController  {
 
         // 重定向到用户管理页面，方法为 redirect:url
         return "redirect:/admin/users";
+    }
+
+    // post请求，处理添加用户请求，并重定向到用户管理页面
+    @RequestMapping(value = "/admin/jobs/addP", method = RequestMethod.POST)
+    public String addUserPost(@ModelAttribute("job") JobEntity jobEntity) {
+        // 注意此处，post请求传递过来的是一个UserEntity对象，里面包含了该用户的信息
+        // 通过@ModelAttribute()注解可以获取传递过来的'user'，并创建这个对象
+
+        // 数据库中添加一个用户，该步暂时不会刷新缓存
+        //userRepository.save(userEntity);
+
+        // 数据库中添加一个用户，并立即刷新缓存
+        //userRepository.saveAndFlush(userEntity);
+        jobService.addJob(jobEntity);
+        System.out.printf(jobEntity.toString());
+
+        // 重定向到用户管理页面，方法为 redirect:url
+        return "redirect:/admin/jobs";
     }
 
     // 更新用户信息 页面
@@ -235,5 +257,14 @@ public class MainController  {
         // 立即刷新
         userService.flush();
         return "redirect:/admin/users";
+    }
+    // 删除招聘信息
+    @RequestMapping(value = "/admin/jobs/delete/{id}", method = RequestMethod.GET)
+    public String deleteJob(@PathVariable("id") Integer jobId) throws UserNotFound {
+        // 删除id为userId的用户
+        jobService.deleteJob(jobId);
+        // 立即刷新
+        userService.flush();
+        return "redirect:/admin/jobs";
     }
 }  

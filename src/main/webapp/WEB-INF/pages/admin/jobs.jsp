@@ -24,38 +24,36 @@
     <h1>内容管理</h1>
     <hr/>
 
-    <h3>所有用户 <a href="/admin/users/add" type="button" class="btn btn-primary btn-sm">添加</a></h3>
+    <h3>所有招聘信息 <a href="/admin/jobs/add" type="button" class="btn btn-primary btn-sm">添加</a></h3>
 
     <!-- 如果用户列表为空 -->
-    <c:if test="${empty userList}">
+    <c:if test="${empty jobList}">
         <div class="alert alert-warning" role="alert">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>User表为空，请<a href="/admin/users/add" type="button" class="btn btn-primary btn-sm">添加</a>
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>User表为空，请<a href="/admin/jobs/add" type="button" class="btn btn-primary btn-sm">添加</a>
         </div>
     </c:if>
 
     <!-- 如果用户列表非空 -->
-    <c:if test="${!empty userList}">
+    <c:if test="${!empty jobList}">
         <table class="table table-bordered table-striped">
             <tr>
                 <th>ID</th>
-                <th>昵称</th>
-                <th>姓名</th>
-                <th>E-mail</th>
-                <th>密码</th>
+                <th>职位名称</th>
+                <th>详情</th>
+                <th>发布者</th>
                 <th>操作</th>
             </tr>
 
-            <c:forEach items="${userList}" var="user">
+            <c:forEach items="${jobList}" var="job">
                 <tr>
-                    <td>${user.userId}</td>
-                    <td>${user.nickname}</td>
-                    <td>${user.firstName} ${user.lastName}</td>
-                    <td>${user.email}</td>
-                    <td>${user.password}</td>
+                    <td>${job.jobId}</td>
+                    <td>${job.jobName}</td>
+                    <td>${job.jobDetial}</td>
+                    <td>${job.image}</td>
                     <td>
-                        <a href="/admin/users/show/${user.userId}" type="button" class="btn btn-sm btn-success">详情</a>
-                        <a href="/admin/users/update/${user.userId}" type="button" class="btn btn-sm btn-warning">修改</a>
-                        <a href="/admin/users/delete/${user.userId}" type="button" class="btn btn-sm btn-danger">删除</a>
+                        <a href="/admin/jobs/show/${job.jobId}" type="button" class="btn btn-sm btn-success">详情</a>
+                        <a href="/admin/jobs/update/${job.jobId}" type="button" class="btn btn-sm btn-warning">修改</a>
+                        <a href="/admin/jobs/delete/${job.jobId}" type="button" class="btn btn-sm btn-danger">删除</a>
                     </td>
                 </tr>
             </c:forEach>

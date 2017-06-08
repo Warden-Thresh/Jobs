@@ -12,7 +12,7 @@ public interface JobService {
     public boolean addJob (JobEntity job);
     public JobEntity updateJob(JobEntity job);
     public JobEntity getJob(int id);
-    public JobEntity deleteJob(JobEntity job);
+    public JobEntity deleteJob(int jobId);
     public List <JobEntity> getJobs();
     public void flush();
 }
