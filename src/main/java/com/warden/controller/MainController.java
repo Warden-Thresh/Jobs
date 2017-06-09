@@ -52,15 +52,6 @@ public class MainController  {
         return result;
     }
 
-   /* @RequestMapping("/showInfos")
-    public @ResponseBody Map<String,Object> showUserInfos(){      // @ResponseBody 表明输出的对象是JSON 格式。
-        List<UserEntity> userInfos = userService.getUsers();
-        Map<String,Object> modelMap = new HashMap<String,Object>(3);
-        modelMap.put("userlist",userInfos);
-
-        return modelMap;
-
-    }*/
    @RequestMapping("/showInfos")
    public @ResponseBody Map<String,Object> showUserInfos(){      // @ResponseBody 表明输出的对象是JSON 格式。
        List<JobEntity> jobList = jobService.getJobs();
